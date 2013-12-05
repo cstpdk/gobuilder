@@ -1,5 +1,16 @@
-#gobuilder
+#Gobuilder
 A build server written in Go
+
+
+##Dependencies
+
+* [Martini](https://github.com/codegangsta/martini) for the web service.
+* [gcfg](https://code.google.com/p/gcfg/) for the config file.
+* [sqlx](https://github.com/jmoiron/sqlx) for the database.
+
+##Config file (.gcfg)
+[server]
+port=3000
 
 ##API
 
