@@ -6,21 +6,33 @@ A build server written in Go
 ###GET
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
-| /projects                      |                           |                             | Gets all projects            |
-| /project/:id                   |                           |                             | Get project with id          | 
-| /project/:id/buildhistory      |                           |                             | The build history            |
-| /builds                        |                           |                             | Get current running builds   |
-| /build/:id                     |                           |                             | Get info on the build        |
-| /build/:id/log                 |                           |                             | Get info on the build        |
+| /projects                      | params: search, page      | \[project,project..\]       | Gets all projects            |
+| /project/:name                 |                           | project                     | Get project with id          | 
+| /project/:name/buildhistory    | params: page              | \[build,build..\]           | The build history            |
+| /builds                        | params: page              | \[build,build..\]           | Get current running builds   |
+| /build/:id                     |                           | build                       | Get info on the build        |
+| /build/:id/log                 |                           | buildlog                    | Get the build log            |
+| /users                         | params: search, page      | \[user, user..\]            | Gets all users               |
+| /user/:name                    |                           | user                        | Gets a users info            |
 
 ###POST
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
-| /project/:id/build             |None                       |build                        | Build the project            |
+| /project                       | project                   | project                     | Create a new project         |
+| /user                          | user                      | user                        | Create a new user            |
+| /project/:name/build           | params: key               | build                       | Build the project            |
                              
 ###PUT                       
+| URL                            |Input                      |Output                       | Description                  |  
+|--------------------------------|---------------------------|-----------------------------|------------------------------|
+| /project                       | project                   | project                     | Create a new project         |
+| /user                          | user                      | user                        | Create a new user (admin)    |
                              
 ###DELETE                    
+| URL                            |Input                      |Output                       | Description                  |  
+|--------------------------------|---------------------------|-----------------------------|------------------------------|
+| /project                       | project                   | bool                        | Delete a project             |
+| /user                          | user                      | bool                        | Delete a user (admin)        |
 
 ###Authentication
 Using HTTP basic authentication
@@ -39,14 +51,12 @@ be provided in the URL:
 ###project:
 ```json
 {
-    "id"   : "uuid",
-    "name" : "A name",
-    "description" : "A description of the project",
-    "git"  : "github.com/user/repo",
-    "gitbranch" : "master",
-    "buildlinux" : "build script for linux",
-    "buildwin"   : "build script for windows",
-    "buildkey"   : "key to build project"
+    "name"          : "A unique name",
+    "description"   : "A description of the project",
+    "git"           : "github.com/user/repo",
+    "gitbranch"     : "master",
+    "buildscript"   : "build script",
+    "buildkey"      : "key to build project"
 }
 ```
 
@@ -55,16 +65,16 @@ be provided in the URL:
 {
     "username" : "username",
     "email"    : "email",
-    "
+    "role"     : "{admin, user}" 
 }
 ```
 
 ###build
 ```json
 {
-    "id" : "id",
-    "user" : "user that have started build",
-    "complete" : true
+    "id"        : "id",
+    "user"      : "user that have started build",
+    "complete"  : true
 }
 ```
 
@@ -72,9 +82,9 @@ be provided in the URL:
 First and last entry is used to get partial build logs on the next request.
 ```json
 {
-    "buildid" : "build id",
-    "log" : "log output",
-    "firstentry" : "id of entry",
-    "lastentry" : "id of entry"
+    "buildid"       : "build id",
+    "log"           : "log output",
+    "firstentry"    : "id of entry",
+    "lastentry"     : "id of entry"
 }
 ```
