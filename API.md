@@ -1,14 +1,6 @@
-#Gobuilder
-A build server written in Go
+#API
 
-##Dependencies
-
-* [Martini](https://github.com/codegangsta/martini) for the web service.
-* [sqlx](https://github.com/jmoiron/sqlx) for the database.
-
-##API
-
-###GET
+##GET
 
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
@@ -21,7 +13,7 @@ A build server written in Go
 | /users                         | params: search, page      | \[user, user..\]            | Gets all users               |
 | /user/:name                    |                           | user                        | Gets a users info            |
 
-###POST
+##POST
 
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
@@ -29,21 +21,21 @@ A build server written in Go
 | /user                          | user                      | user                        | Create a new user            |
 | /project/:name/build           | params: key               | build                       | Build the project            |
                              
-###PUT                       
+##PUT                       
 
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
 | /project                       | project                   | project                     | Create a new project         |
 | /user                          | user                      | user                        | Create a new user (admin)    |
                              
-###DELETE                    
+##DELETE                    
 
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
 | /project                       | project                   | bool                        | Delete a project             |
 | /user                          | user                      | bool                        | Delete a user (admin)        |
 
-###Authentication
+#Authentication
 Using HTTP basic authentication
 
 * Authorization: Basic base64(username:password)
@@ -56,3 +48,48 @@ be provided in the URL:
 
 
 
+#JSON
+##project:
+
+```json
+{
+    "name"          : "A unique name",
+    "description"   : "A description of the project",
+    "git"           : "github.com/user/repo",
+    "gitbranch"     : "master",
+    "buildscript"   : "build script",
+    "buildkey"      : "key to build project"
+}
+```
+
+##user
+
+```json
+{
+    "username" : "username",
+    "email"    : "email",
+    "role"     : "{admin, user}" 
+}
+```
+
+##build
+
+```json
+{
+    "id"        : "id",
+    "user"      : "user that have started build",
+    "complete"  : true
+}
+```
+
+##build log
+
+First and last entry is used to get partial build logs on the next request.
+```json
+{
+    "buildid"       : "build id",
+    "log"           : "log output",
+    "firstentry"    : "id of entry",
+    "lastentry"     : "id of entry"
+}
+```
