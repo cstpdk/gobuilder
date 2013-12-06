@@ -78,7 +78,7 @@ be provided in the URL:
 ##build
 ```json
 {
-    "id"        : "id",
+    "id"        : 1,
     "user"      : "user that have started build",
     "complete"  : true
 }
@@ -88,9 +88,9 @@ be provided in the URL:
 First and last entry is used to get partial build logs on the next request.
 ```json
 {
-    "buildid"       : "build id",
-    "log"           : "log output",
+    "buildid"       : 1,
     "firstentry"    : "id of entry",
-    "lastentry"     : "id of entry"
+    "lastentry"     : "id of entry",
+    "log"           : "log output"
 }
 ```

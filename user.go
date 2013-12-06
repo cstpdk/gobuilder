@@ -18,6 +18,16 @@ type Loginuser struct{
     Role string
 }
 
+var userschema string =
+`
+CREATE TABLE user(
+    username CHAR(100) PRIMARY KEY NOT NULL,
+    password NOT NULL,
+    email CHAR(100),
+    role CHAR(10)
+);
+`
+
 /*
 Auth middel ware function for handling authentication and injecting User
 */
