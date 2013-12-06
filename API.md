@@ -8,17 +8,17 @@
 |GET    | /project/:name                 |                           | project                     | Get project with id          | 
 |GET    | /project/:name/buildhistory    | params: page              | \[build,build..\]           | The build history            |
 |POST   | /project                       | project                   | project                     | Create a new project         |
-|DELETE | /project                       | project                   | bool                        | Delete a project             |
-|PUT    | /project                       | project                   | project                     | Update a project             |
 |POST   | /project/:name/build           | params: key               | build                       | Build the project            |
+|PUT    | /project                       | project                   | project                     | Update a project             |
+|DELETE | /project                       | project                   | bool                        | Delete a project             |
 
 ##User
 
 |Method | URL                            |Input                      |Output                       | Description                  |  
 |-------|--------------------------------|---------------------------|-----------------------------|------------------------------|
-|POST   | /user                          | loginuser                 | user                        | Create a new user (admin)    |
 |GET    | /users                         | params: search, page      | \[user, user..\]            | Gets all users               |
 |GET    | /user/:name                    |                           | user                        | Gets a users info            |
+|POST   | /user                          | loginuser                 | user                        | Create a new user (admin)    |
 |PUT    | /user                          | loginuser                 | user                        | Updated a user (admin/self)  |
 |DELETE | /user                          | user                      | bool                        | Delete a user (admin)        |
                              
