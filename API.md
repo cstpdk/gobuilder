@@ -18,7 +18,7 @@
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
 | /project                       | project                   | project                     | Create a new project         |
-| /user                          | user                      | user                        | Create a new user            |
+| /user                          | loginuser                 | user                        | Create a new user (admin)    |
 | /project/:name/build           | params: key               | build                       | Build the project            |
                              
 ##PUT                       
@@ -26,7 +26,7 @@
 | URL                            |Input                      |Output                       | Description                  |  
 |--------------------------------|---------------------------|-----------------------------|------------------------------|
 | /project                       | project                   | project                     | Create a new project         |
-| /user                          | user                      | user                        | Create a new user (admin)    |
+| /user                          | loginuser                 | user                        | Updated a user (admin/self)  |
                              
 ##DELETE                    
 
@@ -35,7 +35,7 @@
 | /project                       | project                   | bool                        | Delete a project             |
 | /user                          | user                      | bool                        | Delete a user (admin)        |
 
-#Authentication
+##Authentication
 Using HTTP basic authentication
 
 * Authorization: Basic base64(username:password)
@@ -50,7 +50,6 @@ be provided in the URL:
 
 #JSON
 ##project:
-
 ```json
 {
     "name"          : "A unique name",
@@ -63,7 +62,6 @@ be provided in the URL:
 ```
 
 ##user
-
 ```json
 {
     "username" : "username",
@@ -72,8 +70,18 @@ be provided in the URL:
 }
 ```
 
-##build
+##loginuser
+```json
+{
+    "username" : "username",
+    "password" : "password",
+    "email"    : "email",
+    "role"     : "{admin, user}" 
+}
+```
 
+
+##build
 ```json
 {
     "id"        : "id",
@@ -83,7 +91,6 @@ be provided in the URL:
 ```
 
 ##build log
-
 First and last entry is used to get partial build logs on the next request.
 ```json
 {
