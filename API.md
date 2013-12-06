@@ -1,39 +1,32 @@
 #API
 
-##GET
+##Project
 
-| URL                            |Input                      |Output                       | Description                  |  
-|--------------------------------|---------------------------|-----------------------------|------------------------------|
-| /projects                      | params: search, page      | \[project,project..\]       | Gets all projects            |
-| /project/:name                 |                           | project                     | Get project with id          | 
-| /project/:name/buildhistory    | params: page              | \[build,build..\]           | The build history            |
-| /builds                        | params: page              | \[build,build..\]           | Get current running builds   |
-| /build/:id                     |                           | build                       | Get info on the build        |
-| /build/:id/log                 |                           | buildlog                    | Get the build log            |
-| /users                         | params: search, page      | \[user, user..\]            | Gets all users               |
-| /user/:name                    |                           | user                        | Gets a users info            |
+|Method | URL                            |Input                      |Output                       | Description                  |  
+|-------|--------------------------------|---------------------------|-----------------------------|------------------------------|
+|GET    | /projects                      | params: search, page      | \[project,project..\]       | Gets all projects            |
+|GET    | /project/:name                 |                           | project                     | Get project with id          | 
+|GET    | /project/:name/buildhistory    | params: page              | \[build,build..\]           | The build history            |
+|POST   | /project                       | project                   | project                     | Create a new project         |
+|DELETE | /project                       | project                   | bool                        | Delete a project             |
+|PUT    | /project                       | project                   | project                     | Update a project             |
+|POST   | /project/:name/build           | params: key               | build                       | Build the project            |
 
-##POST
+##User
 
-| URL                            |Input                      |Output                       | Description                  |  
-|--------------------------------|---------------------------|-----------------------------|------------------------------|
-| /project                       | project                   | project                     | Create a new project         |
-| /user                          | loginuser                 | user                        | Create a new user (admin)    |
-| /project/:name/build           | params: key               | build                       | Build the project            |
+|Method | URL                            |Input                      |Output                       | Description                  |  
+|-------|--------------------------------|---------------------------|-----------------------------|------------------------------|
+|POST   | /user                          | loginuser                 | user                        | Create a new user (admin)    |
+|GET    | /users                         | params: search, page      | \[user, user..\]            | Gets all users               |
+|GET    | /user/:name                    |                           | user                        | Gets a users info            |
+|PUT    | /user                          | loginuser                 | user                        | Updated a user (admin/self)  |
+|DELETE | /user                          | user                      | bool                        | Delete a user (admin)        |
                              
-##PUT                       
-
-| URL                            |Input                      |Output                       | Description                  |  
-|--------------------------------|---------------------------|-----------------------------|------------------------------|
-| /project                       | project                   | project                     | Create a new project         |
-| /user                          | loginuser                 | user                        | Updated a user (admin/self)  |
-                             
-##DELETE                    
-
-| URL                            |Input                      |Output                       | Description                  |  
-|--------------------------------|---------------------------|-----------------------------|------------------------------|
-| /project                       | project                   | bool                        | Delete a project             |
-| /user                          | user                      | bool                        | Delete a user (admin)        |
+##Build
+|Method | URL                            |Input                      |Output                       | Description                  |  
+|GET    | /builds                        | params: page              | \[build,build..\]           | Get current running builds   |
+|GET    | /build/:id                     |                           | build                       | Get info on the build        |
+|GET    | /build/:id/log                 |                           | buildlog                    | Get the build log            |
 
 ##Authentication
 Using HTTP basic authentication
