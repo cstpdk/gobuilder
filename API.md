@@ -24,6 +24,7 @@
                              
 ##Build
 |Method | URL                            |Input                      |Output                       | Description                  |  
+|-------|--------------------------------|---------------------------|-----------------------------|------------------------------|
 |GET    | /builds                        | params: page              | \[build,build..\]           | Get current running builds   |
 |GET    | /build/:id                     |                           | build                       | Get info on the build        |
 |GET    | /build/:id/log                 |                           | buildlog                    | Get the build log            |
