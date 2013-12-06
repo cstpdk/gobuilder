@@ -10,7 +10,7 @@ var buildschema string =
 `
 CREATE TABLE build(
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    user CHAR(100),
+    user text,
     complete INT DEFAULT 0
 );
 `

@@ -27,3 +27,4 @@ _testmain.go
 gobuilder
 *.exe
 *.db
+workspace

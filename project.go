@@ -12,10 +12,10 @@ type Project struct{
 var projectschema string =
 `
 CREATE TABLE project(
-    name CHAR(100) PRIMARY KEY NOT NULL,
-    descript TEXT,
-    git CHAR(100),
-    gitbranch CHAR(100),
-    buildkey CHAR(64)
+    name text PRIMARY KEY NOT NULL,
+    descript text,
+    git text,
+    gitbranch text,
+    buildkey text
 );
 `
