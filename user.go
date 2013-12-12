@@ -17,7 +17,8 @@ type Loginuser struct{
     Role string `db:"role" json:"role"`
 }
 
-func RoleValidation(r string) bool{
+//Validates the role
+func rolevalidation(r string) bool{
     return (r == "admin" || r == "user")
 }
 
@@ -31,9 +32,12 @@ CREATE TABLE user(
 );
 `
 
+/*
+CreateUser creates a new user in the database
+*/
 func CreateUser(u Loginuser) (User, error){
     //Validate role
-    if !RoleValidation(u.Role) {
+    if !rolevalidation(u.Role) {
         return User{}, errors.New("Invalid role")
     }
     _, err := db.NamedExec(
@@ -42,6 +46,25 @@ func CreateUser(u Loginuser) (User, error){
 
     if err != nil{
         return User{}, errors.New("User already exists")
+    }
+
+    return User{u.Username, u.Email, u.Role}, nil
+}
+
+/*
+Updates the user in the database
+*/
+func UpdateUser(u Loginuser) (User, error){
+
+    if !rolevalidation(u.Role){
+        return User{}, errors.New("Invalid role")
+    }
+    _, err := db.NamedExec(
+        `UPDATE user SET password=:password, email=:email,
+        role=:role WHERE username=:username`, u)
+
+    if err != nil{
+        return User{}, errors.New("Could not update user")
     }
 
     return User{u.Username, u.Email, u.Role}, nil
