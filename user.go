@@ -2,6 +2,7 @@ package main
 
 import(
     "errors"
+    "code.google.com/p/go.crypto/bcrypt"
 )
 
 type User struct{
@@ -22,6 +23,15 @@ func rolevalidation(r string) bool{
     return (r == "admin" || r == "user")
 }
 
+func (u *Loginuser) Hashpwd(){
+    b := []byte(u.Password)
+    r, err := bcrypt.GenerateFromPassword(b, 12)
+    if err != nil {
+        panic(err)
+    }
+    u.Password = string(r)
+}
+
 var userschema string =
 `
 CREATE TABLE user(
@@ -40,6 +50,9 @@ func CreateUser(u Loginuser) (User, error){
     if !rolevalidation(u.Role) {
         return User{}, errors.New("Invalid role")
     }
+
+    u.Hashpwd()
+
     _, err := db.NamedExec(
         `INSERT INTO user (username, password, email, role)
         VALUES(:username, :password, :email, :role)`, u)
@@ -59,6 +72,9 @@ func UpdateUser(u Loginuser) (User, error){
     if !rolevalidation(u.Role){
         return User{}, errors.New("Invalid role")
     }
+
+    u.Hashpwd()
+
     _, err := db.NamedExec(
         `UPDATE user SET password=:password, email=:email,
         role=:role WHERE username=:username`, u)
