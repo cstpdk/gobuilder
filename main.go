@@ -22,6 +22,7 @@ func main(){
     m := martini.New()
     m.Use(martini.Recovery())
     m.Use(martini.Logger())
+    m.Use(JsonEncoder)
 
     os.Setenv("PORT", *port)
     r := martini.NewRouter()

@@ -14,7 +14,11 @@ The database is using sqlite and connects to the specified file
 func SetupDB(dbfile string){
     //Setup database connection
     db = sqlx.MustConnect("sqlite3", dbfile)
-    db.Execf(userschema)
-    db.Execf(projectschema)
-    db.Execf(buildschema)
+    db.Exec(userschema)
+    db.Exec(projectschema)
+    db.Exec(buildschema)
+
+    //Create default admin user
+    lu := Loginuser{"admin", "password", "admin@localhost", "admin"}
+    CreateUser(lu)
 }

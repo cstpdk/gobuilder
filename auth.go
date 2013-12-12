@@ -12,7 +12,7 @@ func Auth(c martini.Context, w http.ResponseWriter, r *http.Request){
     var u User = User{
         Username:  "test",
         Email: "test",
-        Role:  "user",
+        Role:  "admin",
     }
     c.Map(u)
 }
