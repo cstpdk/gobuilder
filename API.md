@@ -20,7 +20,7 @@
 |GET    | /user/:name                    |                           | user                        | Gets a users info            |
 |POST   | /user                          | loginuser                 | user                        | Create a new user (admin)    |
 |PUT    | /user                          | loginuser                 | user                        | Updated a user (admin/self)  |
-|DELETE | /user                          | user                      | bool                        | Delete a user (admin)        |
+|DELETE | /user/:name                    |                           |                             | Delete a user (admin/self)   |
                              
 ##Build
 |Method | URL                            |Input                      |Output                       | Description                  |  

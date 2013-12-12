@@ -85,3 +85,52 @@ func UpdateUser(u Loginuser) (User, error){
 
     return User{u.Username, u.Email, u.Role}, nil
 }
+
+/*
+DeleteUser deletes the user from the database
+*/
+func DeleteUser(name string) error{
+    _, err := db.Exec(`DELETE FROM user WHERE username=$1`, name)
+
+    return err
+}
+
+/*
+GetUser gets the user from the database
+*/
+func GetUser(name string) (User, error){
+    u := User{}
+
+    err := db.Get(&u, `SELECT username, email, role 
+    FROM user WHERE username=$1`, name)
+
+    if err != nil {
+        return User{}, err
+    }
+
+    return u, nil
+}
+
+/*
+Get users
+*/
+func GetUsers() []User {
+    users := []User{}
+    db.Select(&users, "SELECT username, email, role FROM user")
+
+    return users
+}
+
+//Get a loginuser
+func getloginuser(name string) (Loginuser, error){
+    u := Loginuser{}
+
+    err := db.Get(&u, `SELECT username, password, email, role 
+    FROM user WHERE username=$1`, name)
+
+    if err != nil {
+        return Loginuser{}, err
+    }
+
+    return u, nil
+}
