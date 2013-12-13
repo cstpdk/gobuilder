@@ -23,6 +23,9 @@ func rolevalidation(r string) bool{
     return (r == "admin" || r == "user")
 }
 
+/*
+Hashpwd hashes the users password using bcrypt
+*/
 func (u *Loginuser) Hashpwd(){
     b := []byte(u.Password)
     r, err := bcrypt.GenerateFromPassword(b, 12)
@@ -35,7 +38,7 @@ func (u *Loginuser) Hashpwd(){
 var userschema string =
 `
 CREATE TABLE user(
-    username text PRIMARY KEY NOT NULL,
+    username CHAR(256) PRIMARY KEY NOT NULL,
     password text NOT NULL,
     email text,
     role text
@@ -65,7 +68,7 @@ func CreateUser(u Loginuser) (User, error){
 }
 
 /*
-Updates the user in the database
+UpdateUser updates the user in the database
 */
 func UpdateUser(u Loginuser) (User, error){
 

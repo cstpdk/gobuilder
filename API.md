@@ -80,6 +80,7 @@ be provided in the URL:
 {
     "id"        : 1,
     "user"      : "user that have started build",
+    "project"   : "project for the build",
     "complete"  : true
 }
 ```
