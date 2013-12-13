@@ -1,5 +1,8 @@
 package main
 
+/*
+Project a project
+*/
 type Project struct{
     Name string `db:"name" json:"name"`
     Description string `db:"description" json:"description"`

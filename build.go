@@ -4,7 +4,7 @@ package main
 Build a build of a project
 */
 type Build struct{
-    Id  int
+    ID  int
     User string
     Project string
     Complete bool

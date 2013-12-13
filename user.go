@@ -105,7 +105,7 @@ func DeleteUser(name string) error{
 }
 
 /*
-GetUsers gets the user from the database
+GetUser gets the user from the database
 */
 func GetUser(name string) (User, error){
     u := User{}
@@ -121,7 +121,7 @@ func GetUser(name string) (User, error){
 }
 
 /*
-Get users
+GetUsers gets all users
 */
 func GetUsers() []User {
     users := []User{}
