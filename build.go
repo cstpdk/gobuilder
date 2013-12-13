@@ -1,13 +1,16 @@
 package main
 
+/*
+Build a build of a project
+*/
 type Build struct{
-    id  int
-    user string
-    project string
-    complete bool
+    Id  int
+    User string
+    Project string
+    Complete bool
 }
 
-var buildschema string =
+var buildschema =
 `
 CREATE TABLE build(
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

@@ -5,12 +5,18 @@ import(
     "code.google.com/p/go.crypto/bcrypt"
 )
 
+/*
+User a user
+*/
 type User struct{
     Username string `db:"username" json:"username"`
     Email string `db:"email" json:"email"`
     Role string `db:"role" json:"role"`
 }
 
+/*
+Loginuser the same as User but the password, used for authentication purposes
+*/
 type Loginuser struct{
     Username string `db:"username" json:"username"`
     Password string `db:"password" json:"password"`
@@ -35,7 +41,7 @@ func (u *Loginuser) Hashpwd(){
     u.Password = string(r)
 }
 
-var userschema string =
+var userschema =
 `
 CREATE TABLE user(
     username CHAR(256) PRIMARY KEY NOT NULL,
@@ -51,7 +57,7 @@ CreateUser creates a new user in the database
 func CreateUser(u Loginuser) (User, error){
     //Validate role
     if !rolevalidation(u.Role) {
-        return User{}, errors.New("Invalid role")
+        return User{}, errors.New("invalid role")
     }
 
     u.Hashpwd()
@@ -61,7 +67,7 @@ func CreateUser(u Loginuser) (User, error){
         VALUES(:username, :password, :email, :role)`, u)
 
     if err != nil{
-        return User{}, errors.New("User already exists")
+        return User{}, errors.New("user already exists")
     }
 
     return User{u.Username, u.Email, u.Role}, nil
@@ -73,7 +79,7 @@ UpdateUser updates the user in the database
 func UpdateUser(u Loginuser) (User, error){
 
     if !rolevalidation(u.Role){
-        return User{}, errors.New("Invalid role")
+        return User{}, errors.New("invalid role")
     }
 
     u.Hashpwd()
@@ -83,7 +89,7 @@ func UpdateUser(u Loginuser) (User, error){
         role=:role WHERE username=:username`, u)
 
     if err != nil{
-        return User{}, errors.New("Could not update user")
+        return User{}, errors.New("could not update user")
     }
 
     return User{u.Username, u.Email, u.Role}, nil
@@ -99,7 +105,7 @@ func DeleteUser(name string) error{
 }
 
 /*
-GetUser gets the user from the database
+GetUsers gets the user from the database
 */
 func GetUser(name string) (User, error){
     u := User{}

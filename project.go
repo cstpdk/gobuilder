@@ -9,7 +9,7 @@ type Project struct{
     buildkey string `db:"buildkey" json:"buildkey"`
 }
 
-var projectschema string =
+var projectschema =
 `
 CREATE TABLE project(
     name CHAR(256) PRIMARY KEY NOT NULL,

@@ -7,29 +7,29 @@ import(
 )
 
 const (
-    ContentType   = "Content-Type"
-    ContentJSON   = "application/json"
+    contenttype   = "Content-Type"
+    contentJSON   = "application/json"
 )
 
 /*
-Json function type for converting anything to json string
+JSON function type for converting anything to json string
 */
-type Json func(v interface{}) string
+type JSON func(v interface{}) string
 
 /*
-JsonEncoder injects a Json function into requests that handles the encoding of
-anything to Json, setting http headers and sending a 500 http error if
+JSONEncoder injects a JSON function into requests that handles the encoding of
+anything to JSON, setting http headers and sending a 500 http error if
 encoding fails
 */
-func JsonEncoder(c martini.Context, w http.ResponseWriter, r *http.Request){
-    var jfun Json = func(v interface{}) string {
+func JSONEncoder(c martini.Context, w http.ResponseWriter, r *http.Request){
+    jfun := func(v interface{}) string {
         result, err := j.Marshal(v)
 
         if err != nil {
             http.Error(w, err.Error(), 500)
         }
 
-        w.Header().Set(ContentType, ContentJSON)
+        w.Header().Set(contenttype, contentJSON)
         return string(result)
     }
 

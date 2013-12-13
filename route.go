@@ -6,17 +6,23 @@ import(
     "net/http"
 )
 
+/*
+Route assigns the martini routes
+*/
 func Route(m martini.Router){
     m.Get("/", func(res http.ResponseWriter, req *http.Request) {
         http.ServeFile(res, req, "API.md")
     })
-    UserRoutes(m)
+    userroutes(m)
 }
 
-func UserRoutes(m martini.Router){
+/*
+userroutes assigns the user related routes
+*/
+func userroutes(m martini.Router){
     //Post a new user
     m.Post("/user",  Auth, Admin, binding.Json(Loginuser{}),
-    binding.ErrorHandler, func(u Loginuser, j Json) (int,string){
+    binding.ErrorHandler, func(u Loginuser, j JSON) (int,string){
         user, err := CreateUser(u)
 
         if err != nil{
@@ -28,7 +34,7 @@ func UserRoutes(m martini.Router){
 
     //Put an existing user
     m.Put("/user", Auth, binding.Json(Loginuser{}), binding.ErrorHandler,
-    func(u Loginuser, user User, j Json) (int, string){
+    func(u Loginuser, user User, j JSON) (int, string){
         if u.Username != user.Username && user.Role != "admin" {
             return http.StatusUnauthorized, j("Access denied")
         }
@@ -43,7 +49,7 @@ func UserRoutes(m martini.Router){
     })
 
     //Delete a user
-    m.Delete("/user/:name", Auth, func(user User, j Json,
+    m.Delete("/user/:name", Auth, func(user User, j JSON,
     params martini.Params) (int, string){
         name := params["name"]
         if user.Username != name && user.Role != "admin" {
@@ -59,7 +65,7 @@ func UserRoutes(m martini.Router){
         return http.StatusOK, ""
     })
 
-    m.Get("/user/:name", Auth, func(j Json, params martini.Params)(int,
+    m.Get("/user/:name", Auth, func(j JSON, params martini.Params)(int,
     string){
         name := params["name"]
         u, err := GetUser(name)
@@ -71,7 +77,7 @@ func UserRoutes(m martini.Router){
         return http.StatusOK, j(u)
     })
 
-    m.Get("/users", Auth, func(j Json) (int, string){
+    m.Get("/users", Auth, func(j JSON) (int, string){
         users := GetUsers()
         return http.StatusOK, j(users)
     })
