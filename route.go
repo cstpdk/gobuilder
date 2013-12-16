@@ -22,30 +22,30 @@ userroutes assigns the user related routes
 func userroutes(m martini.Router){
     //Post a new user
     m.Post("/user",  Auth, Admin, binding.Json(Loginuser{}),
-    binding.ErrorHandler, func(u Loginuser, j JSON) (int,string){
+    binding.ErrorHandler, func(u Loginuser) (int,User){
         user, err := CreateUser(u)
 
         if err != nil{
-            return http.StatusConflict, j(err)
+            return http.StatusConflict, User{}
         }
 
-        return http.StatusCreated, j(user)
+        return http.StatusCreated, user
     })
 
     //Put an existing user
     m.Put("/user", Auth, binding.Json(Loginuser{}), binding.ErrorHandler,
-    func(u Loginuser, user User, j JSON) (int, string){
+    func(u Loginuser, user User) (int, User){
         if u.Username != user.Username && user.Role != "admin" {
-            return http.StatusUnauthorized, j("Access denied")
+            return http.StatusUnauthorized, User{}
         }
 
         r, err := UpdateUser(u)
 
         if err != nil {
-            return http.StatusConflict, j(err)
+            return http.StatusConflict, User{}
         }
 
-        return http.StatusOK, j(r)
+        return http.StatusOK, r
     })
 
     //Delete a user
@@ -53,32 +53,31 @@ func userroutes(m martini.Router){
     params martini.Params) (int, string){
         name := params["name"]
         if user.Username != name && user.Role != "admin" {
-            return http.StatusUnauthorized, j("Access denied")
+            return http.StatusUnauthorized, "Access denied"
         }
 
         err := DeleteUser(name)
 
         if err != nil {
-            return http.StatusConflict, j("Could not delete user")
+            return http.StatusConflict, "Could not delete user"
         }
 
         return http.StatusOK, ""
     })
 
-    m.Get("/user/:name", Auth, func(j JSON, params martini.Params)(int,
-    string){
+    m.Get("/user/:name", Auth, func(params martini.Params)(int,
+    User){
         name := params["name"]
         u, err := GetUser(name)
 
         if err != nil {
-            return http.StatusNotFound, j("Could not find user")
+            return http.StatusNotFound, User{}
         }
 
-        return http.StatusOK, j(u)
+        return http.StatusOK, u
     })
 
-    m.Get("/users", Auth, func(j JSON) (int, string){
-        users := GetUsers()
-        return http.StatusOK, j(users)
+    m.Get("/users", Auth, func() []User{
+        return GetUsers()
     })
 }

@@ -6,7 +6,6 @@ import(
     "encoding/base64"
     "strings"
     "code.google.com/p/go.crypto/bcrypt"
-    "fmt"
 )
 
 /*
@@ -26,7 +25,6 @@ func Auth(c martini.Context, w http.ResponseWriter, r *http.Request){
     info := strings.SplitN(string(data),":",2)
 
     u, _ := getloginuser(info[0])
-    fmt.Printf("%#v", u)
 
     crypterr := bcrypt.CompareHashAndPassword([]byte(u.Password),
     []byte(info[1]))

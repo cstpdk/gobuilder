@@ -4,6 +4,7 @@ import(
     j "encoding/json"
     "github.com/codegangsta/martini"
     "net/http"
+    "reflect"
 )
 
 const (
@@ -34,4 +35,29 @@ func JSONEncoder(c martini.Context, w http.ResponseWriter, r *http.Request){
     }
 
     c.Map(jfun)
+}
+
+/*
+JSONReturnHandler
+*/
+func JSONReturnHandler(w http.ResponseWriter, vals []reflect.Value) {
+    if len(vals) > 1 && vals[0].Kind() == reflect.Int {
+        result, err := j.Marshal(vals[1].Interface())
+
+        if err != nil {
+            http.Error(w, err.Error(), 500)
+        }
+
+        w.WriteHeader(int(vals[0].Int()))
+        w.Write(result)
+    } else if len(vals) > 0 {
+        result, err := j.Marshal(vals[0].Interface())
+
+        if err != nil {
+            http.Error(w, err.Error(), 500)
+        }
+
+        w.Write(result)
+    }
+
 }
