@@ -4,6 +4,7 @@ import(
     "github.com/codegangsta/martini"
     "github.com/codegangsta/martini-contrib/binding"
     "net/http"
+    "errors"
 )
 
 /*
@@ -22,11 +23,11 @@ userroutes assigns the user related routes
 func userroutes(m martini.Router){
     //Post a new user
     m.Post("/user",  Auth, Admin, binding.Json(Loginuser{}),
-    binding.ErrorHandler, func(u Loginuser) (int,User){
+    binding.ErrorHandler, func(u Loginuser) (int,interface{}){
         user, err := CreateUser(u)
 
         if err != nil{
-            return http.StatusConflict, User{}
+            return http.StatusConflict, err
         }
 
         return http.StatusCreated, user
@@ -34,44 +35,44 @@ func userroutes(m martini.Router){
 
     //Put an existing user
     m.Put("/user", Auth, binding.Json(Loginuser{}), binding.ErrorHandler,
-    func(u Loginuser, user User) (int, User){
+    func(u Loginuser, user User) (int, interface{}){
         if u.Username != user.Username && user.Role != "admin" {
-            return http.StatusUnauthorized, User{}
+            return http.StatusUnauthorized, errors.New("Unauthorized")
         }
 
         r, err := UpdateUser(u)
 
         if err != nil {
-            return http.StatusConflict, User{}
+            return http.StatusConflict, err
         }
 
         return http.StatusOK, r
     })
 
     //Delete a user
-    m.Delete("/user/:name", Auth, func(user User, j JSON,
-    params martini.Params) (int, string){
+    m.Delete("/user/:name", Auth, func(user User,
+    params martini.Params) (int, interface{}){
         name := params["name"]
         if user.Username != name && user.Role != "admin" {
-            return http.StatusUnauthorized, "Access denied"
+            return http.StatusUnauthorized, errors.New("Access denied")
         }
 
         err := DeleteUser(name)
 
         if err != nil {
-            return http.StatusConflict, "Could not delete user"
+            return http.StatusConflict, err
         }
 
         return http.StatusOK, ""
     })
 
     m.Get("/user/:name", Auth, func(params martini.Params)(int,
-    User){
+    interface{}){
         name := params["name"]
         u, err := GetUser(name)
 
         if err != nil {
-            return http.StatusNotFound, User{}
+            return http.StatusNotFound, err
         }
 
         return http.StatusOK, u
