@@ -66,6 +66,7 @@ func userroutes(m martini.Router){
         return http.StatusOK, ""
     })
 
+    //Get a specific user
     m.Get("/user/:name", Auth, func(params martini.Params)(int,
     interface{}){
         name := params["name"]
@@ -78,7 +79,17 @@ func userroutes(m martini.Router){
         return http.StatusOK, u
     })
 
-    m.Get("/users", Auth, func() []User{
-        return GetUsers()
+    //Get all users
+    m.Get("/users", Auth, GetUsers)
+}
+
+func projectroutes(m martini.Router){
+    m.Post("/project", Auth, binding.Json(Project{}), binding.ErrorHandler,
+    func(p Project)(int, interface{}){
+        project, err := CreateProject(p)
+        if err != nil {
+            return http.StatusConflict, project
+        }
+        return http.StatusOK, project
     })
 }

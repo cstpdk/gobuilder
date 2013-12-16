@@ -1,5 +1,9 @@
 package main
 
+import(
+    "errors"
+)
+
 /*
 Project a project
 */
@@ -22,3 +26,18 @@ CREATE TABLE project(
     buildkey text
 );
 `
+
+func CreateProject(p Project) (Project, error){
+    _, err := db.NamedExec(`
+    INSERT INTO project (name, description, git, gitbranch, buildkey)
+    VALUES(:name, :description, :git, :gitbranch, :buildkey)
+    `, p)
+
+    //TODO: Make workspace dir and insert buildscript in file
+
+    if err != nil {
+        return Project{}, errors.New("project already exists")
+    }
+
+    return p, nil
+}
