@@ -14,7 +14,7 @@ Auth middel ware function for handling authentication and injecting User
 func Auth(c martini.Context, w http.ResponseWriter, r *http.Request){
     auth := r.Header.Get("Authorization")
     split := strings.SplitN(string(auth)," ",2)
- 
+
     if len(split) < 2 {
         http.Error(w, "Unauthorized", 401)
     }

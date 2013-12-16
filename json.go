@@ -33,5 +33,4 @@ func JSONReturnHandler(w http.ResponseWriter, vals []reflect.Value) {
 
         w.Write(result)
     }
-
 }

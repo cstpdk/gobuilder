@@ -15,6 +15,7 @@ func Route(m martini.Router){
         http.ServeFile(res, req, "API.md")
     })
     userroutes(m)
+    projectroutes(m)
 }
 
 /*
@@ -85,10 +86,10 @@ func userroutes(m martini.Router){
 
 func projectroutes(m martini.Router){
     m.Post("/project", Auth, binding.Json(Project{}), binding.ErrorHandler,
-    func(p Project)(int, interface{}){
+    func(p Project) (int, interface{}){
         project, err := CreateProject(p)
         if err != nil {
-            return http.StatusConflict, project
+            return http.StatusConflict, err
         }
         return http.StatusOK, project
     })
