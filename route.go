@@ -84,7 +84,11 @@ func userroutes(m martini.Router){
     m.Get("/users", Auth, GetUsers)
 }
 
+/*
+projectroutes assigns the project related routes
+*/
 func projectroutes(m martini.Router){
+    //Post a new project
     m.Post("/project", Auth, binding.Json(Project{}), binding.ErrorHandler,
     func(p Project) (int, interface{}){
         project, err := CreateProject(p)
@@ -94,5 +98,6 @@ func projectroutes(m martini.Router){
         return http.StatusOK, project
     })
 
+    //Get all projects
     m.Get("/projects", Auth, GetProjects)
 }

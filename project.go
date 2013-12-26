@@ -26,6 +26,9 @@ CREATE TABLE project(
 );
 `
 
+/*
+CreateProject creates a new project in the database
+*/
 func CreateProject(p Project) (Project, error){
     _, err := db.NamedExec(`
     INSERT INTO project (name, description, git, gitbranch, buildkey)
@@ -40,6 +43,9 @@ func CreateProject(p Project) (Project, error){
     return p, nil
 }
 
+/*
+GetProjects gets all the projects in the database
+*/
 func GetProjects() []Project {
     projects := []Project{}
     db.Select(&projects,
