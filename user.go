@@ -113,11 +113,7 @@ func GetUser(name string) (User, error){
     err := db.Get(&u, `SELECT username, email, role 
     FROM user WHERE username=$1`, name)
 
-    if err != nil {
-        return User{}, err
-    }
-
-    return u, nil
+    return u, err
 }
 
 /*
@@ -137,9 +133,5 @@ func getloginuser(name string) (Loginuser, error){
     err := db.Get(&u, `SELECT username, password, email, role 
     FROM user WHERE username=$1`, name)
 
-    if err != nil {
-        return Loginuser{}, err
-    }
-
-    return u, nil
+    return u, err
 }

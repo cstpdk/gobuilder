@@ -4,7 +4,7 @@
 
 |Method | URL                            |Input                      |Output                       | Description                  |  
 |-------|--------------------------------|---------------------------|-----------------------------|------------------------------|
-|GET    | /projects                      | params: search, page      | \[project,project..\]       | Gets all projects            |
+|GET    | /projects                      | params: search, page      | \[project,project..\]       | Gets all projects no scripts |
 |GET    | /project/:name                 |                           | project                     | Get project with id          | 
 |GET    | /project/:name/buildhistory    | params: page              | \[build,build..\]           | The build history            |
 |POST   | /project                       | project                   | project                     | Create a new project         |

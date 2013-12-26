@@ -74,7 +74,7 @@ func userroutes(m martini.Router){
         u, err := GetUser(name)
 
         if err != nil {
-            return http.StatusNotFound, err
+            return http.StatusNotFound, errors.New("could not find user")
         }
 
         return http.StatusOK, u
@@ -96,6 +96,19 @@ func projectroutes(m martini.Router){
             return http.StatusConflict, err
         }
         return http.StatusOK, project
+    })
+
+    //Get a specific user
+    m.Get("/project/:name", Auth, func(params martini.Params)(int,
+    interface{}){
+        name := params["name"]
+        p, err := GetProject(name)
+
+        if err != nil {
+            return http.StatusNotFound, errors.New("could not find project")
+        }
+
+        return http.StatusOK, p
     })
 
     //Get all projects

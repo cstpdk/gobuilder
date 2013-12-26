@@ -34,17 +34,33 @@ func CreateProject(p Project) (Project, error){
     INSERT INTO project (name, description, git, gitbranch, buildkey)
     VALUES(:name, :description, :git, :gitbranch, :buildkey)`, p)
 
-    //TODO: Make workspace dir and insert buildscript in file
-
     if err != nil {
         return Project{}, err
     }
+
+    //TODO: Make workspace dir and insert buildscript in file
 
     return p, nil
 }
 
 /*
-GetProjects gets all the projects in the database
+GetProject get specific project from the database.
+*/
+func GetProject(name string) (Project, error) {
+    p := Project{}
+
+    err := db.Get(&p,
+    `SELECT name, description, git, gitbranch, buildkey FROM project WHERE
+    name=$1`, name)
+
+    //TODO: Get information from files
+
+    return p, err
+}
+
+/*
+GetProjects gets all the projects in the database.
+Projects does not contain buildscript
 */
 func GetProjects() []Project {
     projects := []Project{}
