@@ -39,3 +39,11 @@ func CreateProject(p Project) (Project, error){
 
     return p, nil
 }
+
+func GetProjects() []Project {
+    projects := []Project{}
+    db.Select(&projects,
+    `SELECT name, description, git, gitbranch, buildkey FROM project`)
+
+    return projects
+}

@@ -93,4 +93,6 @@ func projectroutes(m martini.Router){
         }
         return http.StatusOK, project
     })
+
+    m.Get("/projects", Auth, GetProjects)
 }
