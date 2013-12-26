@@ -59,6 +59,17 @@ func GetProject(name string) (Project, error) {
 }
 
 /*
+DeleteProject deletes the project from the database
+*/
+func DeleteProject(name string) error{
+    _, err := db.Exec(`DELETE FROM project WHERE name=$1`, name)
+
+    //TODO: Delete workspace folder
+
+    return err
+}
+
+/*
 GetProjects gets all the projects in the database.
 Projects does not contain buildscript
 */

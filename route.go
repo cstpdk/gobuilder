@@ -111,6 +111,20 @@ func projectroutes(m martini.Router){
         return http.StatusOK, p
     })
 
+    //Delete a project
+    m.Delete("/project/:name", Auth, func( params martini.Params) (int,
+    interface{}){
+        name := params["name"]
+
+        err := DeleteProject(name)
+
+        if err != nil {
+            return http.StatusConflict, errors.New("could not delete project")
+        }
+
+        return http.StatusOK, ""
+    })
+
     //Get all projects
     m.Get("/projects", Auth, GetProjects)
 }
