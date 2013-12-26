@@ -2,6 +2,9 @@ package main
 
 import(
     "errors"
+    "os"
+    "path/filepath"
+    "fmt"
 )
 
 /*
@@ -14,6 +17,50 @@ type Project struct{
     Gitbranch string `db:"gitbranch" json:"gitbranch"`
     Buildscript string `db:"buildscript" json:"buildscript"`
     Buildkey string `db:"buildkey" json:"buildkey"`
+}
+
+/*
+ProjectFolder gets the project folder's path
+*/
+func (p *Project) ProjectFolder() string {
+    return filepath.Join(workspace,p.Name)
+}
+
+/*
+CreateProjectFolder create the project folder
+*/
+func (p *Project) CreateProjectFolder() {
+    err := os.MkdirAll(p.ProjectFolder(), 0700)
+
+    if err != nil {
+        panic(err)
+    }
+}
+
+/*
+BuildScriptFile get the project's buildscript file
+*/
+func (p *Project) BuildScriptFile() *os.File {
+    path := filepath.Join(p.ProjectFolder(), "buildscript.sh")
+
+    f, err := os.Create(path)
+
+    if err != nil {
+        panic(err)
+    }
+
+    return f
+}
+
+/*
+WriteBuildScript writes the buildscript to the buildscript file
+*/
+func (p *Project) WriteBuildScript() {
+    _, err := fmt.Fprint(p.BuildScriptFile(), p.Buildscript)
+
+    if err != nil {
+        panic(err)
+    }
 }
 
 var projectschema =
@@ -36,10 +83,12 @@ func CreateProject(p Project) (Project, error){
     VALUES(:name, :description, :git, :gitbranch, :buildkey)`, p)
 
     if err != nil {
-        return Project{}, err
+        return Project{}, errors.New("project already exists")
     }
 
-    //TODO: Make workspace dir and insert buildscript in file
+    p.CreateProjectFolder()
+
+    p.WriteBuildScript()
 
     return p, nil
 }

@@ -33,7 +33,6 @@ func main(){
     //Setup the database and connection
     SetupDB(*database)
 
-
     //Start server
     m.Action(r.Handle)
     m.Run()
