@@ -98,6 +98,19 @@ func projectroutes(m martini.Router){
         return http.StatusOK, project
     })
 
+    //Put a project
+    m.Put("/project", Auth, binding.Json(Project{}), binding.ErrorHandler,
+    func(p Project) (int, interface{}){
+        project, err := UpdateProject(p)
+
+        if err != nil {
+            return http.StatusConflict, err
+        }
+
+        return http.StatusOK, project
+    })
+
+
     //Get a specific user
     m.Get("/project/:name", Auth, func(params martini.Params)(int,
     interface{}){

@@ -1,6 +1,7 @@
 package main
 
 import(
+    "errors"
 )
 
 /*
@@ -67,6 +68,23 @@ func DeleteProject(name string) error{
     //TODO: Delete workspace folder
 
     return err
+}
+
+/*
+UpdateProject updates the project in the database
+*/
+func UpdateProject(p Project) (Project, error){
+
+    _, err := db.NamedExec(`UPDATE project SET description=:description,
+    git=:git, gitbranch=:gitbranch, buildkey=:buildkey WHERE name=:name`, p)
+
+    if err != nil{
+        return Project{}, errors.New("could not update project")
+    }
+
+    //TODO: Update file with buildscript
+
+    return p, nil
 }
 
 /*
